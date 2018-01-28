@@ -35,7 +35,7 @@ if mode is None:
     # bangumi_pattern = re.compile('bangumis=(\[.*\]);')
     # bangumi_json_str = bangumi_pattern.findall(bangumi_list_page)[0]
     # bangumi_list = json.loads(bangumi_json_str)
-    li = xbmcgui.ListItem(u'手动输入 av 号'.encode('utf-8'))
+    li = xbmcgui.ListItem(u'手动输入视频编号'.encode('utf-8'))
     url = build_url({'mode': 'you2bId'})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
     # for weekday in bangumi_list:
@@ -49,7 +49,7 @@ if mode is None:
 
     xbmcplugin.endOfDirectory(addon_handle)
 elif mode[0] == 'get_av_id':
-    kb = xbmc.Keyboard('', u'手动输入 av 号'.encode('utf-8'), False)
+    kb = xbmc.Keyboard('', u'手动输入视频编号'.encode('utf-8'), False)
     kb.doModal()
     if kb.isConfirmed():
         av_id = kb.getText()
@@ -97,7 +97,7 @@ elif mode[0] == 'you2bId':
     if kb.isConfirmed():
         av_id = kb.getText()
         # for debug
-        av_id = 'RYAJ--up88g'
+        # av_id = 'RYAJ--up88g'
         view_url = youtube_info_api + av_id
         play_url = youtube_down_api + av_id
         xbmc.log('url'+'\n'+ view_url+'\n'+play_url,0)
