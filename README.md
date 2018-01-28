@@ -1,6 +1,6 @@
 ![https://github.com/feilongfl/plugin.you2php/raw/master/resources/icon.png](https://github.com/feilongfl/plugin.you2php/raw/master/resources/icon.png)
 # Overview
-An addon for KODI to watch youtube over you2php
+An addon for KODI to watch youtube over you2php.  __Please fork this repo and change url to your own website.__
 # Source
 All videos come from bilibili.com
 
