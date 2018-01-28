@@ -4,7 +4,7 @@ An addon for KODI to watch youtube over you2php
 # Source
 All videos come from bilibili.com
 
-__Special thanks for project kogumi__
+__Special thanks for project kogumi & you2php__
 # Usage
 Just clone the repository, put it to your KODI addon folder. On macOS it's in `~/Library/Application Support/Kodi/addons`. This is expected to work on multiple platforms.
 
