@@ -10,6 +10,8 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 
+from pprint import pprint
+
 base_url = sys.argv[0]
 addon_handle = int(sys.argv[1])
 args = urlparse.parse_qs(sys.argv[2][1:])
@@ -29,21 +31,21 @@ def build_url(query):
 
 mode = args.get('mode', None)
 if mode is None:
-    bangumi_list_page = urllib2.urlopen(bangumi_list_url).read()
-    bangumi_pattern = re.compile('bangumis=(\[.*\]);')
-    bangumi_json_str = bangumi_pattern.findall(bangumi_list_page)[0]
-    bangumi_list = json.loads(bangumi_json_str)
+    # bangumi_list_page = urllib2.urlopen(bangumi_list_url).read()
+    # bangumi_pattern = re.compile('bangumis=(\[.*\]);')
+    # bangumi_json_str = bangumi_pattern.findall(bangumi_list_page)[0]
+    # bangumi_list = json.loads(bangumi_json_str)
     li = xbmcgui.ListItem(u'手动输入 av 号'.encode('utf-8'))
-    url = build_url({'mode': 'get_av_id'})
+    url = build_url({'mode': 'you2bId'})
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
-    for weekday in bangumi_list:
-        for bangumi in weekday:
-            title = bangumi['title'].encode('utf-8')
-            link = bangumi['link'].encode('utf-8').replace('i/', '')
-            url = build_url({'mode': 'folder', 'foldername': title, 'link': link})
-            icon = 'http:' + bangumi['cover'].encode('utf-8')
-            li = xbmcgui.ListItem(bangumi['title'], iconImage=icon)
-            xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
+    # for weekday in bangumi_list:
+    #     for bangumi in weekday:
+    #         title = bangumi['title'].encode('utf-8')
+    #         link = bangumi['link'].encode('utf-8').replace('i/', '')
+    #         url = build_url({'mode': 'folder', 'foldername': title, 'link': link})
+    #         icon = 'http:' + bangumi['cover'].encode('utf-8')
+    #         li = xbmcgui.ListItem(bangumi['title'], iconImage=icon)
+    #         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
 
     xbmcplugin.endOfDirectory(addon_handle)
 elif mode[0] == 'get_av_id':
@@ -89,21 +91,28 @@ elif mode[0] == 'video':
     xbmcplugin.endOfDirectory(addon_handle)
 
 elif mode[0] == 'you2bId':
+    print('haha')
     kb = xbmc.Keyboard('', u'手动输入 av 号'.encode('utf-8'), False)
     kb.doModal()
     if kb.isConfirmed():
         av_id = kb.getText()
-        # view_url = 'https://www.biliplus.com/api/view?id=%s' % av_id
+        # for debug
+        av_id = 'RYAJ--up88g'
         view_url = youtube_info_api + av_id
-        view_info = json.loads(urllib2.urlopen(view_url).read())
         play_url = youtube_down_api + av_id
-        play_info = json.loads(urllib2.urlopen(play_url).read())
-        xbmcgui.Dialog().ok('test', view_url,view_info)
-        xbmcgui.Dialog().ok('test', play_url,play_info)
-
-        # pages = view_info['pageInfo']
-        # for page in pages:
-        #     url = build_url({'mode': 'video', 'av_id': av_id, 'page': page['page'],'bangumi':'0'})
-        #     li = xbmcgui.ListItem(page['part'].encode('utf-8'), iconImage=view_info['pic'])
-        #     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=True)
+        xbmc.log('url'+'\n'+ view_url+'\n'+play_url,0)
+        view_info = json.loads(urllib2.urlopen(view_url).read())
+        pages = view_info['items']
+        for page in pages:
+            pagesnip = page['snippet']
+            pagetitle = pagesnip['title']
+            # pageicon = ((pagesnip['thumbnails'])['maxres'])['url']
+            # url = build_url({'mode': 'y2bvideo', 'av_id': av_id})
+            # for qulity in
+            li = xbmcgui.ListItem(('[360p]' + pagetitle).encode('utf-8'))
+            url = youtube_api_url + '/downvideo.php?v=' + av_id + '&quality=360P&format=mp4'
+            xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
+            li = xbmcgui.ListItem(('[720p]' + pagetitle).encode('utf-8'))
+            url = youtube_api_url + '/downvideo.php?v=' + av_id + '&quality=720P&format=mp4'
+            xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li)
         xbmcplugin.endOfDirectory(addon_handle)
