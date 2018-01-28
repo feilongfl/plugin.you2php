@@ -1,3 +1,4 @@
+![./resources/icon.png]()
 # Overview
 An addon for KODI to watch youtube over you2php
 # Source
