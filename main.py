@@ -19,7 +19,7 @@ args = urlparse.parse_qs(sys.argv[2][1:])
 xbmcplugin.setContent(addon_handle, 'movies')
 
 bangumi_list_url = 'https://www.biliplus.com/?bangumi'
-youtube_api_url = 'http://y2bchina.000webhostapp.com'
+youtube_api_url = 'http://mianfei2.ml'
 youtube_info_api = youtube_api_url + '/ajax/api.php?type=info&v='
 youtube_down_api = youtube_api_url + '/ajax/ajax.php?type=videodownload&link=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D'
 
